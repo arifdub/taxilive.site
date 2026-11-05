@@ -9,17 +9,17 @@
   <meta property="og:title" content="Taxi Live – Ireland's Taxi Driver Hub">
   <meta property="og:description" content="Important numbers, live updates, news and adverts for Irish taxi drivers.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.svg?v=6" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/style.css?v=6">
 </head>
 <body>
   <header class="topbar">
     <div class="wrap topbar__inner">
       <a href="#top" class="brand" aria-label="Taxi Live home">
-        <img src="assets/logo.svg" alt="" class="brand__logo" width="40" height="40">
+        <img src="assets/logo.svg?v=6" alt="" class="brand__logo" width="40" height="40">
         <span class="brand__name">Taxi<span>Live</span></span>
       </a>
       <nav class="nav" aria-label="Main">
@@ -41,7 +41,7 @@
         <div class="hero__actions">
           <a href="#numbers" class="btn btn--primary">📞 Important numbers</a>
           <a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" class="btn btn--wa" target="_blank" rel="noopener">💬 Join WhatsApp group</a>
-          <a href="#board" class="btn btn--ghost">📣 Post an ad</a>
+          <a href="post.html?type=advert" class="btn btn--ghost">📣 Post an ad</a>
         </div>
         <div class="quick" aria-label="Quick dial">
           <a class="quick__item" href="tel:+35314135960"><b>NCTS</b><span>01 413 5960</span></a>
@@ -115,15 +115,17 @@
           <div>
             <p class="eyebrow">From drivers, for drivers</p>
             <h2>Noticeboard</h2>
-            <p class="muted">Adverts, notices and wanted posts from Taxi Live members. Posts stay up for 30 days.</p>
+            <p class="muted">Adverts and notices from Taxi Live members. Posts stay up for 30 days.</p>
           </div>
-          <button type="button" class="btn btn--primary" id="openPost">＋ Post an ad or notice</button>
+          <div class="board-actions">
+            <a href="post.html?type=advert" class="btn btn--primary">📣 Post an advert</a>
+            <a href="post.html?type=notice" class="btn btn--dark-outline">📰 Post a notice</a>
+          </div>
         </div>
         <div class="chips" id="boardChips" role="tablist" aria-label="Filter posts">
           <button type="button" class="chip" role="tab" data-type="all" aria-selected="true">⭐ All</button>
           <button type="button" class="chip" role="tab" data-type="advert" aria-selected="false">📣 Adverts</button>
           <button type="button" class="chip" role="tab" data-type="notice" aria-selected="false">📰 Notices</button>
-          <button type="button" class="chip" role="tab" data-type="wanted" aria-selected="false">🔎 Wanted</button>
         </div>
         <div class="posts" id="posts" aria-live="polite"></div>
         <div class="board-empty" id="boardEmpty" hidden>
@@ -159,7 +161,7 @@
   <footer class="footer" id="contact">
     <div class="wrap footer__inner">
       <div class="brand">
-        <img src="assets/logo.svg" alt="" class="brand__logo" width="36" height="36">
+        <img src="assets/logo.svg?v=6" alt="" class="brand__logo" width="36" height="36">
         <span class="brand__name">Taxi<span>Live</span></span>
       </div>
       <p>Ireland's taxi driver community – live updates, news and adverts.</p>
@@ -175,37 +177,11 @@
     <span>Join group</span>
   </a>
 
-  <dialog class="modal" id="postModal" aria-labelledby="postTitle">
-    <form class="modal__box" id="postForm" novalidate>
-      <div class="modal__head">
-        <h2 id="postTitle">Post to the noticeboard</h2>
-        <button type="button" class="modal__close" id="closePost" aria-label="Close">✕</button>
-      </div>
-      <fieldset class="types">
-        <legend>What are you posting?</legend>
-        <label><input type="radio" name="type" value="advert" checked><span>📣 Advert<small>Car, plate, service for sale/rent</small></span></label>
-        <label><input type="radio" name="type" value="notice"><span>📰 Notice<small>News or info for drivers</small></span></label>
-        <label><input type="radio" name="type" value="wanted"><span>🔎 Wanted<small>Looking for something</small></span></label>
-      </fieldset>
-      <label class="field">Title<input name="title" maxlength="80" required placeholder="e.g. Toyota Prius for rent – Dublin 15"></label>
-      <label class="field">Details<textarea name="body" maxlength="1000" rows="4" required placeholder="Price, dates, condition, anything useful…"></textarea></label>
-      <div class="field-row">
-        <label class="field">Your name<input name="name" maxlength="40" required autocomplete="name"></label>
-        <label class="field">Area <span class="opt">(optional)</span><input name="area" maxlength="40" placeholder="e.g. Tallaght"></label>
-      </div>
-      <label class="field">Phone / WhatsApp <span class="opt">(optional – shown publicly)</span><input name="phone" type="tel" maxlength="20" autocomplete="tel" placeholder="087 123 4567"></label>
-      <label class="field">Photo <span class="opt">(optional)</span><input name="image" type="file" accept="image/*"></label>
-      <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-      <p class="form-error" id="formError" role="alert" hidden></p>
-      <button type="submit" class="btn btn--primary btn--block" id="submitPost">Publish post</button>
-      <p class="fineprint">Be respectful. Posts that are reported by several members are hidden automatically.</p>
-    </form>
-  </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/contacts.js"></script>
-  <script src="assets/app.js"></script>
-  <script src="assets/board.js"></script>
+  <script src="assets/contacts.js?v=6"></script>
+  <script src="assets/app.js?v=6"></script>
+  <script src="assets/board.js?v=6"></script>
 </body>
 </html>

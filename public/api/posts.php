@@ -3,6 +3,7 @@
  * Taxi Live – member posts API (adverts, notices, wanted).
  * Storage: a JSON file kept OUTSIDE public_html when possible.
  *
+ *   Types: advert (category rent|sale|wanted|service|other, optional price), notice.
  *   GET  ?action=list                     public list
  *   POST action=create  (multipart)       new post -> {id, token}
  *   POST action=delete  id, token         owner delete
@@ -21,7 +22,8 @@ const MAX_POSTS_PER_HOUR = 3;
 const REPORTS_TO_HIDE = 3;
 const POST_LIFETIME_DAYS = 30;
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
-const TYPES = ['advert', 'notice', 'wanted'];
+const TYPES = ['advert', 'notice'];
+const CATEGORIES = ['rent', 'sale', 'wanted', 'service', 'other'];
 
 $ADMIN_HASH = null;
 if (is_file(__DIR__ . '/config.php')) {
@@ -85,6 +87,8 @@ function public_post(array $p): array {
         'id' => $p['id'], 'type' => $p['type'], 'title' => $p['title'], 'body' => $p['body'],
         'name' => $p['name'], 'phone' => $p['phone'], 'area' => $p['area'],
         'image' => $p['image'], 'created' => $p['created'],
+        'category' => $p['category'] ?? ($p['type'] === 'wanted' ? 'wanted' : ''),
+        'price' => $p['price'] ?? '',
     ];
 }
 
@@ -159,7 +163,14 @@ case 'create':
     $name = clean((string)($_POST['name'] ?? ''), 40);
     $area = clean((string)($_POST['area'] ?? ''), 40);
     $phone = clean((string)($_POST['phone'] ?? ''), 20);
+    $price = clean((string)($_POST['price'] ?? ''), 30);
+    $category = (string)($_POST['category'] ?? '');
     if (!in_array($type, TYPES, true)) out(400, ['error' => 'Choose a post type.']);
+    if ($type === 'advert') {
+        if (!in_array($category, CATEGORIES, true)) out(400, ['error' => 'Choose an advert category.']);
+    } else {
+        $category = ''; $price = '';
+    }
     if (mb_strlen($title) < 3) out(400, ['error' => 'Please add a title.']);
     if (mb_strlen($body) < 5) out(400, ['error' => 'Please add some details.']);
     if ($name === '') out(400, ['error' => 'Please add your name.']);
@@ -179,7 +190,7 @@ case 'create':
     $image = save_image($_FILES['image'] ?? ['error' => UPLOAD_ERR_NO_FILE]);
     $id = bin2hex(random_bytes(6));
     $token = bin2hex(random_bytes(16));
-    with_db(function (&$db) use ($key, $now, $id, $token, $type, $title, $body, $name, $area, $phone, $image) {
+    with_db(function (&$db) use ($key, $now, $id, $token, $type, $title, $body, $name, $area, $phone, $image, $category, $price) {
         $cutoff = $now - POST_LIFETIME_DAYS * 86400;
         foreach ($db['posts'] as $i => $p) { // purge expired
             if ($p['created'] < $cutoff) { delete_image($p['image'] ?? null); unset($db['posts'][$i]); }
@@ -193,6 +204,7 @@ case 'create':
         $db['posts'][] = [
             'id' => $id, 'type' => $type, 'title' => $title, 'body' => $body, 'name' => $name,
             'phone' => $phone, 'area' => $area, 'image' => $image, 'created' => $now,
+            'category' => $category, 'price' => $price,
             'token' => hash('sha256', $token), 'reports' => [], 'hidden' => false, 'by' => $key,
         ];
     });

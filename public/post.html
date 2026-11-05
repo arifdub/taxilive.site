@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Post to Taxi Live</title>
+  <meta name="description" content="Post an advert or a notice to the Taxi Live noticeboard for Irish taxi drivers.">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="assets/favicon.svg?v=6" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=6">
+</head>
+<body class="page-post">
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="./" class="brand" aria-label="Taxi Live home">
+        <img src="assets/logo.svg?v=6" alt="" class="brand__logo" width="40" height="40">
+        <span class="brand__name">Taxi<span>Live</span></span>
+      </a>
+      <a href="./#board" class="backlink">← Noticeboard</a>
+    </div>
+  </header>
+
+  <main class="postpage">
+    <div class="postpage__head">
+      <h1>Post to the noticeboard</h1>
+      <p class="muted">Free for all Taxi Live members. Your post goes live straight away and stays up for 30 days.</p>
+    </div>
+
+    <div class="seg" role="tablist" aria-label="Post type">
+      <button type="button" class="seg__btn" role="tab" data-type="advert" aria-selected="true">
+        <span class="seg__icon">📣</span><span><b>Advert</b><small>Rent, sale, wanted, services</small></span>
+      </button>
+      <button type="button" class="seg__btn" role="tab" data-type="notice" aria-selected="false">
+        <span class="seg__icon">📰</span><span><b>Notice</b><small>News & info for drivers</small></span>
+      </button>
+    </div>
+
+    <form class="formcard" id="postForm" novalidate>
+      <input type="hidden" name="type" value="advert">
+
+      <div class="fgroup" data-only="advert">
+        <span class="flabel">Category</span>
+        <div class="pills" role="radiogroup" aria-label="Category">
+          <label><input type="radio" name="category" value="rent" checked><span>🚕 For rent</span></label>
+          <label><input type="radio" name="category" value="sale"><span>🏷️ For sale</span></label>
+          <label><input type="radio" name="category" value="wanted"><span>🔎 Wanted</span></label>
+          <label><input type="radio" name="category" value="service"><span>🔧 Service</span></label>
+          <label><input type="radio" name="category" value="other"><span>➕ Other</span></label>
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <label class="flabel" for="f-title">Title</label>
+        <input class="finput" id="f-title" name="title" maxlength="80" required>
+        <p class="fhint" id="titleHint">e.g. Toyota Prius for rent – Dublin 15</p>
+      </div>
+
+      <div class="fgroup" data-only="advert">
+        <label class="flabel" for="f-price">Price <span class="opt">optional</span></label>
+        <input class="finput" id="f-price" name="price" maxlength="30" placeholder="e.g. €250 / week">
+      </div>
+
+      <div class="fgroup">
+        <label class="flabel" for="f-body">Details</label>
+        <textarea class="finput" id="f-body" name="body" maxlength="1000" rows="5" required></textarea>
+        <p class="fhint"><span id="bodyHint">Condition, dates, what's included…</span> <span class="count" id="count">0 / 1000</span></p>
+      </div>
+
+      <div class="fgroup">
+        <span class="flabel">Photo <span class="opt">optional</span></span>
+        <label class="drop" id="drop">
+          <input type="file" name="image" id="f-image" accept="image/*">
+          <span class="drop__empty">
+            <span class="drop__icon">📷</span>
+            <b>Add a photo</b>
+            <small>Tap to take or choose a photo</small>
+          </span>
+          <img class="drop__preview" id="preview" alt="" hidden>
+        </label>
+        <button type="button" class="linkbtn linkbtn--danger" id="removePhoto" hidden>Remove photo</button>
+      </div>
+
+      <div class="fsection">Your details</div>
+
+      <div class="frow">
+        <div class="fgroup">
+          <label class="flabel" for="f-name">Your name</label>
+          <input class="finput" id="f-name" name="name" maxlength="40" required autocomplete="name">
+        </div>
+        <div class="fgroup">
+          <label class="flabel" for="f-area">Area <span class="opt">optional</span></label>
+          <input class="finput" id="f-area" name="area" maxlength="40" placeholder="e.g. Tallaght">
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <label class="flabel" for="f-phone">Phone / WhatsApp <span class="opt">optional</span></label>
+        <input class="finput" id="f-phone" name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="087 123 4567">
+        <p class="fhint">Shown on your post so drivers can call or WhatsApp you.</p>
+      </div>
+
+      <div class="hp" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+        <label>Leave empty<input name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <p class="form-error" id="formError" role="alert" hidden></p>
+      <button type="submit" class="btn btn--primary btn--block btn--lg" id="submitPost">Publish advert</button>
+      <p class="fineprint">Be respectful. Posts reported by several members are hidden automatically.</p>
+    </form>
+
+    <div class="success" id="success" hidden>
+      <div class="success__icon">✅</div>
+      <h2>Your post is live!</h2>
+      <p class="muted">Share it in the WhatsApp group so more drivers see it.</p>
+      <div class="success__actions">
+        <a class="btn btn--wa btn--block" id="shareWa" target="_blank" rel="noopener">Share on WhatsApp</a>
+        <a class="btn btn--dark btn--block" href="./#board">View noticeboard</a>
+        <button type="button" class="linkbtn" id="another">Post another</button>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets/post.js?v=6"></script>
+</body>
+</html>

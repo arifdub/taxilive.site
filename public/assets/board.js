@@ -1,15 +1,12 @@
 (function () {
   "use strict";
   var API = "api/posts.php";
-  var LABEL = { advert: "📣 Advert", notice: "📰 Notice", wanted: "🔎 Wanted" };
+  var LABEL = { advert: "📣 Advert", notice: "📰 Notice" };
+  var CAT = { rent: "🚕 For rent", sale: "🏷️ For sale", wanted: "🔎 Wanted", service: "🔧 Service", other: "📣 Advert" };
   var list = document.getElementById("posts");
   var emptyBox = document.getElementById("boardEmpty");
   var errBox = document.getElementById("boardError");
   var chips = document.getElementById("boardChips");
-  var modal = document.getElementById("postModal");
-  var form = document.getElementById("postForm");
-  var formErr = document.getElementById("formError");
-  var submit = document.getElementById("submitPost");
   var posts = [];
   var filter = "all";
 
@@ -64,9 +61,10 @@
   function render() {
     var my = mine();
     list.innerHTML = "";
-    var shown = posts.filter(function (p) { return filter === "all" || p.type === filter; });
+    var shown = posts.filter(function (p) { var t = p.type === "wanted" ? "advert" : p.type; return filter === "all" || t === filter; });
     shown.forEach(function (p) {
-      var card = el("article", "post post--" + p.type);
+      var isAd = p.type !== "notice";
+      var card = el("article", "post post--" + (isAd ? "advert" : "notice"));
       if (p.image) {
         var img = el("img", "post__img");
         img.src = p.image;
@@ -76,10 +74,11 @@
       }
       var body = el("div", "post__body");
       var meta = el("div", "post__meta");
-      meta.appendChild(el("span", "tag tag--" + p.type, LABEL[p.type] || p.type));
+      meta.appendChild(el("span", "tag tag--" + (isAd ? "advert" : "notice"), isAd ? (CAT[p.category] || LABEL.advert) : LABEL.notice));
       meta.appendChild(el("span", "post__time", ago(p.created)));
       body.appendChild(meta);
       body.appendChild(el("h3", "post__title", p.title));
+      if (isAd && p.price) body.appendChild(el("p", "post__price", p.price));
       body.appendChild(el("p", "post__text", p.body));
       var who = el("p", "post__who");
       who.textContent = "👤 " + p.name + (p.area ? "  ·  📍 " + p.area : "");
@@ -97,7 +96,7 @@
       }
       var share = el("a", "btn btn--sm btn--ghost-dark", "↗ Share");
       share.href = "https://wa.me/?text=" + encodeURIComponent(
-        (LABEL[p.type] || "") + ": " + p.title + "\n" + p.body.slice(0, 200) +
+        (isAd ? "📣 " : "📰 ") + p.title + (p.price ? " – " + p.price : "") + "\n" + p.body.slice(0, 200) +
         (p.phone ? "\n📞 " + p.phone : "") + "\n\nSeen on " + location.origin + "/#board");
       share.target = "_blank"; share.rel = "noopener";
       act.appendChild(share);
@@ -141,76 +140,6 @@
       c.setAttribute("aria-selected", c === b ? "true" : "false");
     });
     render();
-  });
-
-  // Shrink photos in the browser (phones take huge photos) and strip metadata.
-  function shrink(file) {
-    return new Promise(function (resolve) {
-      if (!file || !file.size || !/^image\//.test(file.type)) return resolve(file && file.size ? file : null);
-      var url = URL.createObjectURL(file);
-      var img = new Image();
-      img.onload = function () {
-        var max = 1600, w = img.naturalWidth, h = img.naturalHeight;
-        var k = Math.min(1, max / Math.max(w, h));
-        var c = document.createElement("canvas");
-        c.width = Math.round(w * k); c.height = Math.round(h * k);
-        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
-        URL.revokeObjectURL(url);
-        c.toBlob(function (b) { resolve(b || file); }, "image/jpeg", 0.82);
-      };
-      img.onerror = function () { URL.revokeObjectURL(url); resolve(file); };
-      img.src = url;
-    });
-  }
-
-  function open() {
-    formErr.hidden = true;
-    if (modal.showModal) modal.showModal(); else modal.setAttribute("open", "");
-  }
-  function close() {
-    if (modal.close) modal.close(); else modal.removeAttribute("open");
-  }
-  document.getElementById("openPost").addEventListener("click", open);
-  document.getElementById("closePost").addEventListener("click", close);
-  modal.addEventListener("click", function (e) { if (e.target === modal) close(); });
-
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    formErr.hidden = true;
-    var fd = new FormData(form);
-    var need = [["title", "Please add a title."], ["body", "Please add some details."], ["name", "Please add your name."]];
-    for (var i = 0; i < need.length; i++) {
-      if (String(fd.get(need[i][0]) || "").trim().length < (need[i][0] === "name" ? 1 : 3)) {
-        formErr.textContent = need[i][1]; formErr.hidden = false;
-        form.elements[need[i][0]].focus();
-        return;
-      }
-    }
-    submit.disabled = true;
-    submit.textContent = "Publishing…";
-    shrink(fd.get("image")).then(function (img) {
-      fd.delete("image");
-      if (img) fd.append("image", img, "photo.jpg");
-      fd.append("action", "create");
-      return post(fd);
-    }).then(function (j) {
-      if (j.id) { var m = mine(); m[j.id] = j.token; setMine(m); }
-      form.reset();
-      close();
-      toast("✅ Your post is live!");
-      filter = "all";
-      Array.prototype.forEach.call(chips.children, function (c) {
-        c.setAttribute("aria-selected", c.dataset.type === "all" ? "true" : "false");
-      });
-      load();
-      document.getElementById("board").scrollIntoView();
-    }).catch(function (err) {
-      formErr.textContent = err.message;
-      formErr.hidden = false;
-    }).then(function () {
-      submit.disabled = false;
-      submit.textContent = "Publish post";
-    });
   });
 
   load();
