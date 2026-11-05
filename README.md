@@ -1,6 +1,11 @@
 # taxilive.site
 
-Files in `public/` are deployed to cPanel (`/public_html/`) over FTP by
-`.github/workflows/deploy.yml` on every push to `master`/`main`.
+Taxi Live – hub for Irish taxi drivers (important numbers, live updates, noticeboard).
 
-Required repo secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`.
+- `public/` is the website. Edit contacts in `public/assets/contacts.js`.
+- Replace `public/assets/logo.svg` (and `favicon.svg`) with the real logo.
+- Pushing to `master`/`main` deploys `public/` to cPanel over FTPS via
+  `.github/workflows/deploy.yml`.
+
+Repo secrets: `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, and optional
+`FTP_SERVER_DIR` (defaults to `/public_html/`).

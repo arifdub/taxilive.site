@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taxi Live – Ireland's Taxi Driver Hub</title>
+  <meta name="description" content="Taxi Live: important numbers, live road updates, news and adverts for taxi drivers in Ireland. NCTS, NTA, Carriage Office, insurance, rentals, mechanics and meter installers – tap to call.">
+  <meta name="theme-color" content="#0b1530">
+  <meta property="og:title" content="Taxi Live – Ireland's Taxi Driver Hub">
+  <meta property="og:description" content="Important numbers, live updates, news and adverts for Irish taxi drivers.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="#top" class="brand" aria-label="Taxi Live home">
+        <img src="assets/logo.svg" alt="" class="brand__logo" width="40" height="40">
+        <span class="brand__name">Taxi<span>Live</span></span>
+      </a>
+      <nav class="nav" aria-label="Main">
+        <a href="#numbers">Numbers</a>
+        <a href="#live">Live</a>
+        <a href="#board">Noticeboard</a>
+        <a href="#links">Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero__checker" aria-hidden="true"></div>
+      <div class="wrap hero__inner">
+        <p class="pill"><span class="dot"></span> Ireland's taxi driver community</p>
+        <h1>Everything a taxi driver needs, <em>one tap away.</em></h1>
+        <p class="lead">Important numbers, live road updates, news and adverts from drivers, for drivers – built for your phone, on the rank or between fares.</p>
+        <div class="hero__actions">
+          <a href="#numbers" class="btn btn--primary">📞 Important numbers</a>
+          <a href="#live" class="btn btn--ghost">🔴 Live updates</a>
+        </div>
+        <div class="quick" aria-label="Quick dial">
+          <a class="quick__item" href="tel:+35314135960"><b>NCTS</b><span>01 413 5960</span></a>
+          <a class="quick__item" href="tel:+353818064000"><b>NTA</b><span>0818 064 000</span></a>
+          <a class="quick__item" href="tel:+35314135951"><b>Meter Sealing</b><span>01 413 5951</span></a>
+          <a class="quick__item" href="tel:+35318081443"><b>Mechanic 24/7</b><span>01 808 1443</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section id="numbers" class="section">
+      <div class="wrap">
+        <div class="section__head">
+          <div>
+            <p class="eyebrow">Important information</p>
+            <h2>Important numbers</h2>
+            <p class="muted">Tap any number to call. Tap ⧉ to copy it.</p>
+          </div>
+          <label class="search">
+            <span class="sr-only">Search contacts</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.96 12.06l4.24 4.24-1.4 1.4-4.24-4.24A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/></svg>
+            <input id="q" type="search" placeholder="Search e.g. insurance, Finglas, meter…" autocomplete="off">
+          </label>
+        </div>
+        <div class="chips" id="chips" role="tablist" aria-label="Filter by category"></div>
+        <div class="grid" id="contacts">
+          <noscript><p>Please enable JavaScript to view the contact list.</p></noscript>
+        </div>
+        <p class="empty" id="empty" hidden>No contacts match your search.</p>
+      </div>
+    </section>
+
+    <section id="live" class="section section--dark">
+      <div class="wrap">
+        <p class="eyebrow">Before you head out</p>
+        <h2>Live updates</h2>
+        <p class="muted">Traffic cameras, weather warnings and arrivals – check before you move.</p>
+        <div class="cards">
+          <a class="card card--live" href="https://www.tiitraffic.ie" target="_blank" rel="noopener">
+            <span class="badge badge--red">● LIVE</span>
+            <h3>Traffic cameras</h3>
+            <p>TII Traffic – live motorway cameras, incidents and roadworks across Ireland.</p>
+            <span class="card__link">tiitraffic.ie →</span>
+          </a>
+          <a class="card card--live" href="https://www.dublinairport.com" target="_blank" rel="noopener">
+            <span class="badge">✈ Airport</span>
+            <h3>Dublin Airport arrivals</h3>
+            <p>Check flight arrivals before heading to the airport rank.</p>
+            <span class="card__link">dublinairport.com →</span>
+          </a>
+          <a class="card card--live" href="https://www.met.ie/warnings" target="_blank" rel="noopener">
+            <span class="badge badge--amber">⚠ Weather</span>
+            <h3>Weather warnings</h3>
+            <p>Met Éireann warnings – rain, wind and ice can mean busy nights and slow roads.</p>
+            <span class="card__link">met.ie →</span>
+          </a>
+        </div>
+        <div class="callout">
+          <div>
+            <h3>📷 Driver camera updates</h3>
+            <p>Spotted a checkpoint, accident or a busy rank? Share it with the Taxi Live group so every driver knows.</p>
+          </div>
+          <a href="#board" class="btn btn--primary">Share an update</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="board" class="section">
+      <div class="wrap">
+        <p class="eyebrow">From drivers, for drivers</p>
+        <h2>Noticeboard</h2>
+        <p class="muted">News, adverts and offers from the Taxi Live community.</p>
+        <div class="cards">
+          <article class="card">
+            <span class="tag">📰 News</span>
+            <h3>Industry news</h3>
+            <p>NTA updates, fare changes, licence and suitability news, rank changes and Carriage Office notices.</p>
+          </article>
+          <article class="card">
+            <span class="tag tag--yellow">📣 Adverts</span>
+            <h3>Driver adverts</h3>
+            <p>Cars for sale or rent, plates, meters, insurance deals and services from drivers in the group.</p>
+          </article>
+          <article class="card">
+            <span class="tag tag--green">🤝 Help</span>
+            <h3>Driver help</h3>
+            <p>Questions about the NCT, suitability test, meter sealing or insurance? Ask the drivers who've done it.</p>
+          </article>
+        </div>
+        <div class="callout callout--yellow">
+          <div>
+            <h3>Want to advertise to Irish taxi drivers?</h3>
+            <p>Reach drivers across Dublin and the country with Taxi Live.</p>
+          </div>
+          <a href="#contact" class="btn btn--dark">Advertise with us</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="links" class="section section--soft">
+      <div class="wrap">
+        <p class="eyebrow">Official</p>
+        <h2>Useful links</h2>
+        <div class="links">
+          <a href="https://www.nationaltransport.ie" target="_blank" rel="noopener"><b>National Transport Authority</b><span>SPSV licensing, suitability & fares</span></a>
+          <a href="https://www.ncts.ie" target="_blank" rel="noopener"><b>NCTS</b><span>Book your NCT online</span></a>
+          <a href="https://www.garda.ie" target="_blank" rel="noopener"><b>An Garda Síochána</b><span>Garda stations & services</span></a>
+          <a href="https://www.tiitraffic.ie" target="_blank" rel="noopener"><b>TII Traffic</b><span>Live roads & cameras</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="contact">
+    <div class="wrap footer__inner">
+      <div class="brand">
+        <img src="assets/logo.svg" alt="" class="brand__logo" width="36" height="36">
+        <span class="brand__name">Taxi<span>Live</span></span>
+      </div>
+      <p>Ireland's taxi driver community – live updates, news and adverts.</p>
+      <p class="small">Numbers are shared by the community for convenience. Please confirm details directly with each provider. Not affiliated with the NTA, NCTS or An Garda Síochána.</p>
+      <p class="small">© <span id="year"></span> taxilive.site</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="assets/contacts.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
