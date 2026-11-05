@@ -1,0 +1,4 @@
+public/api/config.php
+public/data/
+public/uploads/*
+!public/uploads/.htaccess

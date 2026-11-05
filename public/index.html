@@ -40,7 +40,8 @@
         <p class="lead">Important numbers, live road updates, news and adverts from drivers, for drivers – built for your phone, on the rank or between fares.</p>
         <div class="hero__actions">
           <a href="#numbers" class="btn btn--primary">📞 Important numbers</a>
-          <a href="#live" class="btn btn--ghost">🔴 Live updates</a>
+          <a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" class="btn btn--wa" target="_blank" rel="noopener">💬 Join WhatsApp group</a>
+          <a href="#board" class="btn btn--ghost">📣 Post an ad</a>
         </div>
         <div class="quick" aria-label="Quick dial">
           <a class="quick__item" href="tel:+35314135960"><b>NCTS</b><span>01 413 5960</span></a>
@@ -103,39 +104,40 @@
             <h3>📷 Driver camera updates</h3>
             <p>Spotted a checkpoint, accident or a busy rank? Share it with the Taxi Live group so every driver knows.</p>
           </div>
-          <a href="#board" class="btn btn--primary">Share an update</a>
+          <a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" class="btn btn--wa" target="_blank" rel="noopener">Share in WhatsApp group</a>
         </div>
       </div>
     </section>
 
     <section id="board" class="section">
       <div class="wrap">
-        <p class="eyebrow">From drivers, for drivers</p>
-        <h2>Noticeboard</h2>
-        <p class="muted">News, adverts and offers from the Taxi Live community.</p>
-        <div class="cards">
-          <article class="card">
-            <span class="tag">📰 News</span>
-            <h3>Industry news</h3>
-            <p>NTA updates, fare changes, licence and suitability news, rank changes and Carriage Office notices.</p>
-          </article>
-          <article class="card">
-            <span class="tag tag--yellow">📣 Adverts</span>
-            <h3>Driver adverts</h3>
-            <p>Cars for sale or rent, plates, meters, insurance deals and services from drivers in the group.</p>
-          </article>
-          <article class="card">
-            <span class="tag tag--green">🤝 Help</span>
-            <h3>Driver help</h3>
-            <p>Questions about the NCT, suitability test, meter sealing or insurance? Ask the drivers who've done it.</p>
-          </article>
-        </div>
-        <div class="callout callout--yellow">
+        <div class="section__head">
           <div>
-            <h3>Want to advertise to Irish taxi drivers?</h3>
-            <p>Reach drivers across Dublin and the country with Taxi Live.</p>
+            <p class="eyebrow">From drivers, for drivers</p>
+            <h2>Noticeboard</h2>
+            <p class="muted">Adverts, notices and wanted posts from Taxi Live members. Posts stay up for 30 days.</p>
           </div>
-          <a href="#contact" class="btn btn--dark">Advertise with us</a>
+          <button type="button" class="btn btn--primary" id="openPost">＋ Post an ad or notice</button>
+        </div>
+        <div class="chips" id="boardChips" role="tablist" aria-label="Filter posts">
+          <button type="button" class="chip" role="tab" data-type="all" aria-selected="true">⭐ All</button>
+          <button type="button" class="chip" role="tab" data-type="advert" aria-selected="false">📣 Adverts</button>
+          <button type="button" class="chip" role="tab" data-type="notice" aria-selected="false">📰 Notices</button>
+          <button type="button" class="chip" role="tab" data-type="wanted" aria-selected="false">🔎 Wanted</button>
+        </div>
+        <div class="posts" id="posts" aria-live="polite"></div>
+        <div class="board-empty" id="boardEmpty" hidden>
+          <p class="board-empty__icon">📋</p>
+          <h3>No posts yet</h3>
+          <p class="muted">Be the first – post a car for rent, a notice or anything useful for drivers.</p>
+        </div>
+        <p class="muted small-note" id="boardError" hidden>Couldn't load posts right now. Please refresh.</p>
+        <div class="callout callout--wa">
+          <div>
+            <h3>💬 Join the Taxi Live WhatsApp group</h3>
+            <p>Share anything with drivers – live updates, checkpoints, ranks, questions and news.</p>
+          </div>
+          <a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" class="btn btn--wa" target="_blank" rel="noopener">Join WhatsApp group</a>
         </div>
       </div>
     </section>
@@ -161,14 +163,49 @@
         <span class="brand__name">Taxi<span>Live</span></span>
       </div>
       <p>Ireland's taxi driver community – live updates, news and adverts.</p>
+      <p><a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" class="btn btn--wa btn--sm" target="_blank" rel="noopener">💬 Join the WhatsApp group</a></p>
       <p class="small">Numbers are shared by the community for convenience. Please confirm details directly with each provider. Not affiliated with the NTA, NCTS or An Garda Síochána.</p>
       <p class="small">© <span id="year"></span> taxilive.site</p>
     </div>
   </footer>
 
+
+  <a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" class="fab" target="_blank" rel="noopener" aria-label="Join the Taxi Live WhatsApp group">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>
+    <span>Join group</span>
+  </a>
+
+  <dialog class="modal" id="postModal" aria-labelledby="postTitle">
+    <form class="modal__box" id="postForm" novalidate>
+      <div class="modal__head">
+        <h2 id="postTitle">Post to the noticeboard</h2>
+        <button type="button" class="modal__close" id="closePost" aria-label="Close">✕</button>
+      </div>
+      <fieldset class="types">
+        <legend>What are you posting?</legend>
+        <label><input type="radio" name="type" value="advert" checked><span>📣 Advert<small>Car, plate, service for sale/rent</small></span></label>
+        <label><input type="radio" name="type" value="notice"><span>📰 Notice<small>News or info for drivers</small></span></label>
+        <label><input type="radio" name="type" value="wanted"><span>🔎 Wanted<small>Looking for something</small></span></label>
+      </fieldset>
+      <label class="field">Title<input name="title" maxlength="80" required placeholder="e.g. Toyota Prius for rent – Dublin 15"></label>
+      <label class="field">Details<textarea name="body" maxlength="1000" rows="4" required placeholder="Price, dates, condition, anything useful…"></textarea></label>
+      <div class="field-row">
+        <label class="field">Your name<input name="name" maxlength="40" required autocomplete="name"></label>
+        <label class="field">Area <span class="opt">(optional)</span><input name="area" maxlength="40" placeholder="e.g. Tallaght"></label>
+      </div>
+      <label class="field">Phone / WhatsApp <span class="opt">(optional – shown publicly)</span><input name="phone" type="tel" maxlength="20" autocomplete="tel" placeholder="087 123 4567"></label>
+      <label class="field">Photo <span class="opt">(optional)</span><input name="image" type="file" accept="image/*"></label>
+      <label class="hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
+      <p class="form-error" id="formError" role="alert" hidden></p>
+      <button type="submit" class="btn btn--primary btn--block" id="submitPost">Publish post</button>
+      <p class="fineprint">Be respectful. Posts that are reported by several members are hidden automatically.</p>
+    </form>
+  </dialog>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="assets/contacts.js"></script>
   <script src="assets/app.js"></script>
+  <script src="assets/board.js"></script>
 </body>
 </html>
