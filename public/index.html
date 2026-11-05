@@ -9,24 +9,28 @@
   <meta property="og:title" content="Taxi Live – Ireland's Taxi Driver Hub">
   <meta property="og:description" content="Important numbers, live updates, news and adverts for Irish taxi drivers.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="assets/favicon.svg?v=6" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.svg?v=7" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=6">
+  <link rel="stylesheet" href="assets/style.css?v=7">
 </head>
 <body>
   <header class="topbar">
     <div class="wrap topbar__inner">
       <a href="#top" class="brand" aria-label="Taxi Live home">
-        <img src="assets/logo.svg?v=6" alt="" class="brand__logo" width="40" height="40">
+        <img src="assets/logo.svg?v=7" alt="" class="brand__logo" width="40" height="40">
         <span class="brand__name">Taxi<span>Live</span></span>
       </a>
-      <nav class="nav" aria-label="Main">
+      <button type="button" class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="mainNav" aria-label="Main">
         <a href="#numbers">Numbers</a>
         <a href="#live">Live</a>
         <a href="#board">Noticeboard</a>
         <a href="#links">Links</a>
+        <a href="post.html?type=advert" class="nav__cta">＋ Post</a>
       </nav>
     </div>
   </header>
@@ -161,7 +165,7 @@
   <footer class="footer" id="contact">
     <div class="wrap footer__inner">
       <div class="brand">
-        <img src="assets/logo.svg?v=6" alt="" class="brand__logo" width="36" height="36">
+        <img src="assets/logo.svg?v=7" alt="" class="brand__logo" width="36" height="36">
         <span class="brand__name">Taxi<span>Live</span></span>
       </div>
       <p>Ireland's taxi driver community – live updates, news and adverts.</p>
@@ -180,8 +184,8 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/contacts.js?v=6"></script>
-  <script src="assets/app.js?v=6"></script>
-  <script src="assets/board.js?v=6"></script>
+  <script src="assets/contacts.js?v=7"></script>
+  <script src="assets/app.js?v=7"></script>
+  <script src="assets/board.js?v=7"></script>
 </body>
 </html>
