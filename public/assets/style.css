@@ -394,3 +394,14 @@ textarea.finput { resize: vertical; min-height: 120px; line-height: 1.5; }
 .success__icon { font-size: 2.6rem; }
 .success__actions { display: grid; gap: 10px; max-width: 320px; margin: 18px auto 0; }
 .success .linkbtn { margin: 0 auto; }
+
+/* Pinned notices */
+.post--pinned { grid-column: 1 / -1; border-top-color: var(--yellow); background: linear-gradient(180deg, rgba(255, 199, 44, .08), var(--surface) 140px); }
+.tag--pinned { background: var(--navy); color: #fff; }
+.post__deadline { font-size: .82rem; font-weight: 800; color: var(--red); }
+.post__text--clamp { display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+.post__text--clamp.is-open { display: block; -webkit-line-clamp: unset; }
+.linkbtn--more { margin: -4px 0 10px; padding: 4px 0; color: var(--text); font-weight: 700; text-decoration: none; }
+.tag { white-space: nowrap; }
+.post--pinned .post__meta { flex-wrap: wrap; justify-content: flex-start; gap: 8px 12px; }
+.post--pinned .post__title { font-size: 1.15rem; }

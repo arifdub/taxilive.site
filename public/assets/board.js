@@ -55,12 +55,56 @@
     fetch(API + "?action=list", { cache: "no-store" })
       .then(function (r) { if (!r.ok) throw 0; return r.json(); })
       .then(function (j) { posts = j.posts || []; errBox.hidden = true; render(); })
-      .catch(function () { posts = []; render(); errBox.hidden = false; emptyBox.hidden = true; });
+      .catch(function () { posts = []; render(); errBox.hidden = false; });
+  }
+
+  function renderPinned(p) {
+    var card = el("article", "post post--notice post--pinned");
+    var body = el("div", "post__body");
+    var meta = el("div", "post__meta");
+    meta.appendChild(el("span", "tag tag--pinned", "📌 Pinned notice"));
+    if (p.deadline) meta.appendChild(el("span", "post__deadline", "📅 " + p.deadline));
+    body.appendChild(meta);
+    body.appendChild(el("h3", "post__title", p.title));
+    var text = el("p", "post__text post__text--clamp", p.body);
+    body.appendChild(text);
+    var more = el("button", "linkbtn linkbtn--more", "Read more ▾");
+    more.type = "button";
+    more.addEventListener("click", function () {
+      var open = text.classList.toggle("is-open");
+      more.textContent = open ? "Show less ▴" : "Read more ▾";
+    });
+    body.appendChild(more);
+    body.appendChild(el("p", "post__who", "👤 " + p.name + (p.phone ? "  ·  📞 " + p.phone : "")));
+    var act = el("div", "post__actions");
+    if (p.link) {
+      var go = el("a", "btn btn--sm btn--primary", p.link.label + " ↗");
+      go.href = p.link.url; go.target = "_blank"; go.rel = "noopener";
+      act.appendChild(go);
+    }
+    if (p.phone) {
+      var call = el("a", "btn btn--sm btn--call", "📞 Call");
+      call.href = "tel:+" + intl(p.phone);
+      act.appendChild(call);
+    }
+    var share = el("a", "btn btn--sm btn--wa", "Share on WhatsApp");
+    share.href = "https://wa.me/?text=" + encodeURIComponent(
+      p.title + "\n\n" + p.body + "\n\n📅 " + (p.deadline || "") + "\n" + (p.link ? p.link.url : ""));
+    share.target = "_blank"; share.rel = "noopener";
+    act.appendChild(share);
+    body.appendChild(act);
+    card.appendChild(body);
+    return card;
   }
 
   function render() {
     var my = mine();
     list.innerHTML = "";
+    var now = Date.now();
+    var pinned = (window.TAXI_PINNED || []).filter(function (p) {
+      return (!p.expires || Date.parse(p.expires) > now) && (filter === "all" || filter === "notice");
+    });
+    pinned.forEach(function (p) { list.appendChild(renderPinned(p)); });
     var shown = posts.filter(function (p) { var t = p.type === "wanted" ? "advert" : p.type; return filter === "all" || t === filter; });
     shown.forEach(function (p) {
       var isAd = p.type !== "notice";
@@ -129,7 +173,7 @@
       card.appendChild(body);
       list.appendChild(card);
     });
-    emptyBox.hidden = shown.length !== 0;
+    emptyBox.hidden = shown.length + pinned.length !== 0;
   }
 
   chips.addEventListener("click", function (e) {
