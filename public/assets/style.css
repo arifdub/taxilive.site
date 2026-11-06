@@ -445,3 +445,5 @@ textarea.finput { resize: vertical; min-height: 120px; line-height: 1.5; }
 .subhead { font-size: 1.3rem; margin: 34px 0 0; }
 .attrib { margin-top: 26px; font-size: .8rem; color: var(--muted); }
 .attrib a { color: inherit; }
+/* Hero: the two secondary buttons share a row on phones */
+@media (max-width: 640px) { .hero__actions .btn--ghost { flex: 1 1 calc(50% - 5px); padding-left: 10px; padding-right: 10px; } }
