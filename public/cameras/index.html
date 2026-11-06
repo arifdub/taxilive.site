@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Traffic Cameras – Taxi Live</title>
+  <meta name="description" content="Quick links to TII live traffic cameras for Irish taxi drivers: M50, M1, N7, N4, M11, Cork N40 and Jack Lynch Tunnel, Dunkettle, Limerick Tunnel and more.">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="../assets/favicon.svg?v=10" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css?v=11">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="../" class="brand" aria-label="Taxi Live home">
+        <img src="../assets/logo.svg?v=10" alt="" class="brand__logo" width="40" height="40">
+        <span class="brand__name">Taxi<span>Live</span></span>
+      </a>
+      <a href="../" class="backlink">← Home</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero--sm">
+      <div class="hero__checker" aria-hidden="true"></div>
+      <div class="wrap hero__inner">
+        <p class="pill"><span class="dot"></span> Live from TII</p>
+        <h1>Live traffic <em>cameras</em></h1>
+        <p class="lead">Check the M50, motorways and tunnels before you head out. 247 TII cameras across Ireland, refreshed every few minutes.</p>
+        <div class="hero__actions">
+          <a href="https://traffic.tii.ie/list/cameras" class="btn btn--primary" target="_blank" rel="noopener">📷 Open all live cameras ↗</a>
+          <a href="https://traffic.tii.ie/" class="btn btn--ghost" target="_blank" rel="noopener">🗺️ Live traffic map ↗</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <div class="wrap">
+        <ol class="steps">
+          <li><b>Tap a road below</b><span>The road name is copied for you.</span></li>
+          <li><b>TII cameras open</b><span>In a new tab, so Taxi Live stays open.</span></li>
+          <li><b>Paste in the search box</b><span>Every camera on that road is shown.</span></li>
+        </ol>
+
+        <div class="chips" id="regionChips" role="tablist" aria-label="Region">
+          <button type="button" class="chip" role="tab" data-region="all" aria-selected="true">⭐ All</button>
+          <button type="button" class="chip" role="tab" data-region="dublin" aria-selected="false">🏙️ Dublin</button>
+          <button type="button" class="chip" role="tab" data-region="cork" aria-selected="false">⚓ Cork</button>
+          <button type="button" class="chip" role="tab" data-region="other" aria-selected="false">🛣️ Rest of Ireland</button>
+        </div>
+
+        <div id="roads"></div>
+
+        <div class="callout callout--wa">
+          <div>
+            <h3>💬 Spotted something on the road?</h3>
+            <p>Share accidents, checkpoints and closures with drivers in the Taxi Live WhatsApp group.</p>
+          </div>
+          <a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" class="btn btn--wa" target="_blank" rel="noopener">Join WhatsApp group</a>
+        </div>
+
+        <h2 class="subhead">More live info</h2>
+        <div class="links">
+          <a href="https://www.dublinairport.com" target="_blank" rel="noopener"><b>✈ Dublin Airport</b><span>Flight arrivals before the rank</span></a>
+          <a href="https://www.met.ie/warnings" target="_blank" rel="noopener"><b>⚠ Met Éireann</b><span>Weather warnings</span></a>
+          <a href="https://traffic.tii.ie/" target="_blank" rel="noopener"><b>🗺️ TII Traffic map</b><span>Incidents & roadworks</span></a>
+          <a href="../#numbers"><b>📞 Important numbers</b><span>Tap to call</span></a>
+        </div>
+
+        <p class="attrib">Camera images and traffic information are provided by
+          <a href="https://traffic.tii.ie/" target="_blank" rel="noopener">Transport Infrastructure Ireland (TII)</a>
+          and open on the TII website. Taxi Live is not affiliated with TII.
+          <a href="https://traffic.tii.ie/help/53/TII-Terms-of-Use-" target="_blank" rel="noopener">TII Terms of Use</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="brand">
+        <img src="../assets/logo.svg?v=10" alt="" class="brand__logo" width="36" height="36">
+        <span class="brand__name">Taxi<span>Live</span></span>
+      </div>
+      <p>Ireland's taxi driver community – live updates, news and adverts.</p>
+      <p class="small">© <span id="year"></span> taxilive.site</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+  (function () {
+    "use strict";
+    var TII = "https://traffic.tii.ie/list/cameras";
+    // Camera counts and locations from the TII camera list (Nov 2026).
+    var ROADS = [
+      { region: "dublin", road: "M50", search: "M50", name: "M50 – Dublin ring road", count: 101, hot: true,
+        spots: ["J3 M1 / Airport", "J4 Ballymun", "J6 Blanchardstown (N3)", "J7 Lucan (N4)", "J9 Red Cow (N7)", "Ballymount", "J12 Firhouse", "J13 Dundrum", "Leopardstown", "J15 Carrickmines", "J16 Cherrywood"] },
+      { region: "dublin", road: "M1", search: "M1", name: "M1 – Airport, Swords & north", count: 19,
+        spots: ["J1 M50", "J2 Airport", "J3 Swords", "J4 Donabate", "Toll plaza", "Balbriggan", "Drogheda bypass"] },
+      { region: "dublin", road: "N7", search: "N7", name: "N7 / M7 – Naas Road & south-west", count: 9,
+        spots: ["J1 M50 east", "J1 M50 west", "Naas", "Newbridge bypass", "Kildare", "Portlaoise bypass"] },
+      { region: "dublin", road: "N4", search: "N4", name: "N4 / M4 – Lucan & west", count: 17,
+        spots: ["J2 Liffey Valley", "J4 Lucan", "J5 Leixlip", "J6 Celbridge", "Enfield", "Mullingar"] },
+      { region: "dublin", road: "M11", search: "M11", name: "M11 / N11 – Bray & Wicklow", count: 7,
+        spots: ["J5 Bray", "Bray bypass", "Glen of the Downs", "Arklow bypass"] },
+      { region: "dublin", road: "N3", search: "N3", name: "N3 / M3 – Blanchardstown & Navan", count: 2,
+        spots: ["N3 before J1 (M50)", "Kilcarn"] },
+      { region: "cork", road: "N40", search: "N40", name: "N40 – Cork ring road & Jack Lynch Tunnel", count: 22, hot: true,
+        spots: ["Jack Lynch Tunnel", "J10 Mahon", "J9 Bloomfield", "Dunkettle", "J3 (N71)", "J1 (N22)", "Curraheen"] },
+      { region: "cork", road: "M8", search: "Dunkettle", name: "Dunkettle & M8 / N8", count: 12,
+        spots: ["Dunkettle interchange", "N8 at R635", "Mitchelstown", "Cahir"] },
+      { region: "cork", road: "N25", search: "N25", name: "N25 – Little Island, Midleton & east", count: 6,
+        spots: ["J2 Little Island", "Dunkettle", "Midleton bypass", "Dungarvan", "Wexford"] },
+      { region: "other", road: "N18", search: "Limerick", name: "Limerick Tunnel & M18", count: 2,
+        spots: ["Limerick Tunnel south", "Cloneen"] },
+      { region: "other", road: "M6", search: "M6", name: "M6 / M17 – Galway & west", count: 7,
+        spots: ["Athlone bypass", "Ballinasloe", "Athenry", "Tuam", "Knock"] },
+      { region: "other", road: "M9", search: "M9", name: "M9 – Kilkenny & Waterford", count: 4,
+        spots: ["Kilcullen", "Carlow", "Gowran", "Mullinavat"] },
+      { region: "other", road: "N2", search: "N2", name: "N2 / M2 – Ashbourne & Monaghan", count: 4,
+        spots: ["Funshog", "Reaghstown", "Cloghan", "Emyvale"] },
+      { region: "other", road: "M20", search: "N20", name: "N20 / M20 – Cork to Limerick", count: 2,
+        spots: ["Charleville", "Rathduff"] }
+    ];
+    var REGION = { dublin: "Dublin", cork: "Cork", other: "Rest of Ireland" };
+    var wrap = document.getElementById("roads");
+    var chips = document.getElementById("regionChips");
+    var toast = document.getElementById("toast");
+    var active = "all";
+
+    function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+    function show(msg) {
+      toast.textContent = msg; toast.classList.add("is-on");
+      clearTimeout(show.t); show.t = setTimeout(function () { toast.classList.remove("is-on"); }, 3200);
+    }
+    function copy(text) {
+      try { if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text); } catch (e) {}
+      return Promise.reject();
+    }
+
+    function render() {
+      wrap.innerHTML = "";
+      ["dublin", "cork", "other"].forEach(function (r) {
+        if (active !== "all" && active !== r) return;
+        var sec = el("section", "region");
+        sec.appendChild(el("h2", "region__title", REGION[r]));
+        var grid = el("div", "roads");
+        ROADS.filter(function (x) { return x.region === r; }).forEach(function (x) {
+          var a = el("a", "road" + (x.hot ? " road--hot" : ""));
+          a.href = TII; a.target = "_blank"; a.rel = "noopener";
+          var head = el("div", "road__head");
+          head.appendChild(el("span", "road__badge" + (x.road.charAt(0) === "M" ? " road__badge--m" : ""), x.road));
+          var t = el("div", "road__title");
+          t.appendChild(el("b", "", x.name));
+          t.appendChild(el("span", "", "📷 " + x.count + (x.count === 1 ? " camera" : " cameras")));
+          head.appendChild(t);
+          a.appendChild(head);
+          var ul = el("ul", "road__spots");
+          x.spots.forEach(function (s) { ul.appendChild(el("li", "", s)); });
+          a.appendChild(ul);
+          a.appendChild(el("span", "road__go", "View cameras – search “" + x.search + "” ↗"));
+          a.addEventListener("click", function () {
+            copy(x.search).then(function () { show("“" + x.search + "” copied – paste it in the TII search box"); },
+                                function () { show("Search “" + x.search + "” on the TII page"); });
+          });
+          grid.appendChild(a);
+        });
+        sec.appendChild(grid);
+        wrap.appendChild(sec);
+      });
+    }
+    chips.addEventListener("click", function (e) {
+      var b = e.target.closest(".chip"); if (!b) return;
+      active = b.dataset.region;
+      Array.prototype.forEach.call(chips.children, function (c) { c.setAttribute("aria-selected", c === b ? "true" : "false"); });
+      render();
+    });
+    render();
+    document.getElementById("year").textContent = new Date().getFullYear();
+  })();
+  </script>
+</body>
+</html>

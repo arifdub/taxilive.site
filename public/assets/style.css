@@ -405,3 +405,43 @@ textarea.finput { resize: vertical; min-height: 120px; line-height: 1.5; }
 .tag { white-space: nowrap; }
 .post--pinned .post__meta { flex-wrap: wrap; justify-content: flex-start; gap: 8px 12px; }
 .post--pinned .post__title { font-size: 1.15rem; }
+
+/* Cameras page */
+.hero--sm { padding: 36px 0 44px; }
+.hero--sm h1 { max-width: none; }
+@media (max-width: 640px) { .hero--sm { padding: 22px 0 40px; } }
+.section--tight { padding: 32px 0 56px; }
+.steps { list-style: none; counter-reset: s; margin: 0 0 22px; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.steps li { counter-increment: s; position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 14px 14px 54px; }
+.steps li::before { content: counter(s); position: absolute; left: 14px; top: 14px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--yellow); color: #111; font-weight: 800; font-size: .9rem; }
+.steps b { display: block; }
+.steps span { color: var(--muted); font-size: .88rem; }
+@media (max-width: 760px) { .steps { grid-template-columns: 1fr; gap: 8px; } .steps li { padding: 12px 12px 12px 52px; } .steps li::before { top: 12px; } }
+.region { margin-top: 10px; }
+.region__title { font-size: 1.3rem; margin: 14px 0 12px; }
+.roads { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 960px) { .roads { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) { .roads { grid-template-columns: 1fr; } }
+.road {
+  display: flex; flex-direction: column; gap: 12px; text-decoration: none;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px; box-shadow: var(--shadow); transition: transform .15s, border-color .15s;
+}
+.road:hover { transform: translateY(-2px); border-color: var(--yellow-2); }
+.road--hot { border-top: 4px solid var(--yellow); }
+.road__head { display: flex; align-items: center; gap: 12px; }
+.road__badge {
+  flex: none; min-width: 52px; height: 40px; padding: 0 8px; display: grid; place-items: center;
+  background: #0b6e3a; color: #fff; font-weight: 800; border-radius: 8px; border: 2px solid #fff;
+  box-shadow: 0 0 0 2px #0b6e3a; font-size: .95rem;
+}
+.road__badge--m { background: #0057a8; box-shadow: 0 0 0 2px #0057a8; }
+.road__title b { display: block; line-height: 1.25; }
+.road__title span { font-size: .82rem; color: var(--muted); font-weight: 600; }
+.road__spots { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.road__spots li { font-size: .78rem; font-weight: 600; background: var(--soft); border: 1px solid var(--line); padding: 4px 9px; border-radius: 999px; }
+.road__go { margin-top: auto; font-weight: 800; font-size: .88rem; color: #b07800; }
+@media (prefers-color-scheme: dark) { .road__go { color: var(--yellow); } }
+.subhead { font-size: 1.3rem; margin: 34px 0 0; }
+.attrib { margin-top: 26px; font-size: .8rem; color: var(--muted); }
+.attrib a { color: inherit; }
