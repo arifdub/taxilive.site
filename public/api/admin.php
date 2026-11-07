@@ -87,6 +87,15 @@ tl_run(function () {
         tl_json(200, ['admins' => $rows, 'me' => (int)$me['id']]);
     }
 
+    if ($action === 'mail_settings') {
+        $cfg = tl_config(); $smtp = $cfg['smtp'] ?? [];
+        tl_json(200, [
+            'mail_from' => tl_mail_from(), 'mode' => !empty($smtp['host']) ? 'smtp' : 'server',
+            'host' => $smtp['host'] ?? '', 'port' => (int)($smtp['port'] ?? 465), 'secure' => $smtp['secure'] ?? 'ssl',
+            'user' => $smtp['user'] ?? '', 'has_pass' => !empty($smtp['pass']), 'admin_email' => $me['email'],
+        ]);
+    }
+
     // ---- Everything below changes data ----
     tl_require_post();
     if ($action === 'logout') { session_destroy(); tl_json(200, ['ok' => true]); }
@@ -204,6 +213,39 @@ tl_run(function () {
     if ($action === 'contact_delete') {
         $db->prepare("DELETE FROM tl_contacts WHERE id = ?")->execute([$id]);
         tl_json(200, ['ok' => true]);
+    }
+
+    if ($action === 'mail_save') {
+        $from = tl_email($_POST['mail_from'] ?? '');
+        if ($from === '') tl_json(400, ['error' => 'Enter a valid "send from" email address.']);
+        $cfg = tl_config();
+        $cfg['mail_from'] = $from;
+        if (($_POST['mode'] ?? '') === 'smtp') {
+            $host = strtolower(trim((string)($_POST['host'] ?? '')));
+            $port = (int)($_POST['port'] ?? 0);
+            $secure = in_array($_POST['secure'] ?? '', ['ssl', 'tls', 'none'], true) ? $_POST['secure'] : 'ssl';
+            $user = trim((string)($_POST['user'] ?? ''));
+            $pass = (string)($_POST['pass'] ?? '');
+            if (!preg_match('/^[a-z0-9.-]{3,253}$/', $host)) tl_json(400, ['error' => 'Enter the outgoing mail server, e.g. mail.taxilive.site']);
+            if ($port < 1 || $port > 65535) tl_json(400, ['error' => 'Enter the port (465 for SSL, 587 for TLS).']);
+            if ($user === '') tl_json(400, ['error' => 'Enter the email account username (usually the full email address).']);
+            if ($pass === '') $pass = (string)($cfg['smtp']['pass'] ?? '');   // keep the saved password
+            if ($pass === '') tl_json(400, ['error' => 'Enter the email account password.']);
+            $cfg['smtp'] = ['host' => $host, 'port' => $port, 'secure' => $secure, 'user' => $user, 'pass' => $pass];
+        } else {
+            unset($cfg['smtp']);
+        }
+        tl_save_config($cfg);
+        tl_json(200, ['ok' => true]);
+    }
+
+    if ($action === 'mail_test') {
+        $to = tl_email($_POST['to'] ?? '') ?: $me['email'];
+        if (!tl_rate('mail_test', tl_ip_hash(), 10, 3600)) tl_json(429, ['error' => 'Too many test emails. Try again later.']);
+        $err = null;
+        $ok = tl_mail($to, 'Taxi Live test email', "This is a test email from the Taxi Live admin panel.\n\nIf you can read this, members will receive their edit codes.\n\n– Taxi Live", $err);
+        if (!$ok) tl_json(400, ['error' => $err ?: 'Sending failed.']);
+        tl_json(200, ['ok' => true, 'to' => $to]);
     }
 
     if ($action === 'password') {

@@ -78,6 +78,7 @@ if (!$installed && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
                     throw new RuntimeException('Could not save the settings file in ' . tl_data_dir());
                 }
                 @chmod(tl_config_path(), 0600);
+                tl_forget_config_cache();
                 @unlink($attemptsFile);
                 $done = $log;
                 $installed = true;
@@ -179,7 +180,7 @@ if (!$installed && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
       <div class="fgroup">
         <label class="flabel" for="mail_from">Send emails from</label>
         <input class="finput" id="mail_from" name="mail_from" type="email" value="<?= h($v['mail_from']) ?>" required>
-        <p class="fhint">Members get their 6-digit edit code from this address. Use an address on your own domain – create it in cPanel → Email Accounts so emails aren't marked as spam.</p>
+        <p class="fhint">Members get their 6-digit edit code from this address. Use an address on your own domain (e.g. info@taxilive.site). You can add its SMTP login later in Admin → Email settings.</p>
       </div>
 
       <button class="btn btn--primary btn--block btn--lg" type="submit">Set up Taxi Live</button>

@@ -249,19 +249,105 @@ function tl_save_image(?array $f): ?string {
 
 /* ---------- Mail ---------- */
 
-function tl_mail(string $to, string $subject, string $text): bool {
-    $cfg = tl_config();
-    $from = $cfg['mail_from'] ?? ('noreply@' . preg_replace('/^www\./', '', $_SERVER['HTTP_HOST'] ?? 'taxilive.site'));
-    $headers = implode("\r\n", [
+/** Rewrite the private settings file (atomic). */
+function tl_save_config(array $config): void {
+    $php = "<?php\n// Taxi Live settings – keep private.\nreturn " . var_export($config, true) . ";\n";
+    $tmp = tl_config_path() . '.tmp';
+    if (@file_put_contents($tmp, $php, LOCK_EX) === false || !@rename($tmp, tl_config_path())) {
+        throw new RuntimeException('Could not save the settings file.');
+    }
+    @chmod(tl_config_path(), 0600);
+    tl_forget_config_cache();
+}
+
+/** PHP's opcache can keep serving an old copy of config.php – clear it after every change. */
+function tl_forget_config_cache(): void {
+    clearstatcache(true, tl_config_path());
+    if (function_exists('opcache_invalidate')) @opcache_invalidate(tl_config_path(), true);
+}
+
+function tl_mail_from(): string {
+    $cfg = tl_config() ?? [];
+    return $cfg['mail_from'] ?? ('noreply@' . preg_replace('/^www\./', '', $_SERVER['HTTP_HOST'] ?? 'taxilive.site'));
+}
+
+/** Build a plain-text email (headers + base64 body). */
+function tl_build_message(string $from, string $to, string $subject, string $text, bool $withTo): array {
+    $domain = substr(strrchr($from, '@'), 1) ?: 'taxilive.site';
+    $headers = [
+        'Date: ' . date('r'),
         'From: Taxi Live <' . $from . '>',
         'Reply-To: ' . $from,
+        'Message-ID: <' . bin2hex(random_bytes(12)) . '@' . $domain . '>',
         'MIME-Version: 1.0',
         'Content-Type: text/plain; charset=UTF-8',
-        'Content-Transfer-Encoding: 8bit',
+        'Content-Transfer-Encoding: base64',
         'X-Mailer: TaxiLive',
-    ]);
-    $subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
-    return @mail($to, $subject, $text, $headers, '-f' . $from);
+    ];
+    if ($withTo) array_splice($headers, 2, 0, ['To: <' . $to . '>', 'Subject: =?UTF-8?B?' . base64_encode($subject) . '?=']);
+    return [$headers, chunk_split(base64_encode(str_replace("\n", "\r\n", str_replace("\r\n", "\n", $text))))];
+}
+
+/**
+ * Send an email. Uses the SMTP login saved in Admin → Email settings when there is one,
+ * otherwise the server's built-in mail. $error gets a readable reason on failure.
+ */
+function tl_mail(string $to, string $subject, string $text, ?string &$error = null): bool {
+    $cfg = tl_config() ?? [];
+    $from = tl_mail_from();
+    $smtp = $cfg['smtp'] ?? null;
+    if ($smtp && !empty($smtp['host'])) return tl_smtp_send($smtp, $from, $to, $subject, $text, $error);
+    [$headers, $body] = tl_build_message($from, $to, $subject, $text, false);
+    $ok = @mail($to, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers), '-f' . $from);
+    if (!$ok) $error = 'The server could not send the email (PHP mail() failed).';
+    return $ok;
+}
+
+function tl_smtp_send(array $smtp, string $from, string $to, string $subject, string $text, ?string &$error = null): bool {
+    $host = (string)$smtp['host'];
+    $port = (int)($smtp['port'] ?? 465);
+    $secure = (string)($smtp['secure'] ?? 'ssl');   // ssl (465) | tls (587, STARTTLS) | none
+    $ctx = stream_context_create(['ssl' => ['verify_peer' => true, 'verify_peer_name' => true, 'SNI_enabled' => true, 'peer_name' => $host]]);
+    $fp = @stream_socket_client(($secure === 'ssl' ? 'ssl://' : 'tcp://') . $host . ':' . $port, $errno, $errstr, 15, STREAM_CLIENT_CONNECT, $ctx);
+    if (!$fp) {
+        $error = "Could not connect to $host:$port ($errstr). Check the server name and port"
+            . ($secure !== 'none' ? ', and that the server\'s SSL certificate matches that name.' : '.');
+        return false;
+    }
+    stream_set_timeout($fp, 20);
+    $read = function () use ($fp) {
+        $out = '';
+        while (($line = fgets($fp, 1024)) !== false) { $out .= $line; if (strlen($line) < 4 || $line[3] !== '-') break; }
+        return $out;
+    };
+    $cmd = function (?string $c, array $ok, string $what) use ($fp, $read, &$error) {
+        if ($c !== null) fwrite($fp, $c . "\r\n");
+        $r = $read();
+        if (!in_array((int)substr($r, 0, 3), $ok, true)) { $error = "$what failed: " . trim($r ?: 'no reply from server'); return false; }
+        return true;
+    };
+    $ehlo = preg_replace('/[^a-z0-9.-]/i', '', $_SERVER['SERVER_NAME'] ?? 'taxilive.site') ?: 'taxilive.site';
+    $ok = $cmd(null, [220], 'Connecting') && $cmd("EHLO $ehlo", [250], 'Greeting');
+    if ($ok && $secure === 'tls') {
+        $ok = $cmd('STARTTLS', [220], 'STARTTLS');
+        if ($ok && !@stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) { $error = "Secure connection (STARTTLS) failed – check the server's SSL certificate."; $ok = false; }
+        $ok = $ok && $cmd("EHLO $ehlo", [250], 'Greeting');
+    }
+    if ($ok && !empty($smtp['user'])) {
+        $ok = $cmd('AUTH LOGIN', [334], 'Login') && $cmd(base64_encode((string)$smtp['user']), [334], 'Login')
+            && $cmd(base64_encode((string)($smtp['pass'] ?? '')), [235], 'Login (check the email address and password)');
+    }
+    if ($ok) {
+        [$headers, $body] = tl_build_message($from, $to, $subject, $text, true);
+        $data = implode("\r\n", $headers) . "\r\n\r\n" . $body;
+        $data = preg_replace('/^\./m', '..', $data);
+        $ok = $cmd("MAIL FROM:<$from>", [250], 'Sender') && $cmd("RCPT TO:<$to>", [250, 251], 'Recipient')
+            && $cmd('DATA', [354], 'Sending') && $cmd(rtrim($data, "\r\n") . "\r\n.", [250], 'Sending');
+    }
+    @fwrite($fp, "QUIT\r\n");
+    fclose($fp);
+    if (!$ok) error_log('Taxi Live SMTP: ' . $error);
+    return $ok;
 }
 
 function tl_new_public_id(): string { return bin2hex(random_bytes(6)); }

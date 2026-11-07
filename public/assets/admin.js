@@ -102,6 +102,7 @@
     if (b.dataset.tab === "posts") loadPosts();
     if (b.dataset.tab === "numbers") loadNumbers();
     if (b.dataset.tab === "admins") loadAdmins();
+    if (b.dataset.tab === "settings") loadMail();
   });
 
   /* ---------- posts ---------- */
@@ -314,6 +315,41 @@
   $("pwForm").addEventListener("submit", function (e) {
     e.preventDefault(); var f = this;
     api("POST", "password", new FormData(f)).then(function () { f.reset(); toast("Password changed"); }).catch(function (x) { toast(x.message, true); });
+  });
+
+  /* ---------- email settings ---------- */
+  var mf = $("mailForm");
+  function syncMode() {
+    var smtp = mf.querySelector("[name=mode]:checked") && mf.querySelector("[name=mode]:checked").value === "smtp";
+    $("smtpFields").hidden = !smtp;
+  }
+  mf.addEventListener("change", function (e) {
+    syncMode();
+    if (e.target.id === "mf-secure") $("mf-port").value = e.target.value === "ssl" ? 465 : 587;
+  });
+  function loadMail() {
+    api("GET", "mail_settings").then(function (j) {
+      $("mf-from").value = j.mail_from;
+      mf.querySelector("[name=mode][value=" + j.mode + "]").checked = true;
+      $("mf-host").value = j.host; $("mf-secure").value = j.secure; $("mf-port").value = j.port;
+      $("mf-user").value = j.user; $("mf-pass").value = "";
+      $("mf-pass").placeholder = j.has_pass ? "•••••••• saved – leave empty to keep" : "";
+      if (!$("mt-to").value) $("mt-to").value = j.admin_email;
+      syncMode();
+    });
+  }
+  mf.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var b = mf.querySelector("button[type=submit]"); b.disabled = true;
+    api("POST", "mail_save", new FormData(mf)).then(function () { toast("Email settings saved"); loadMail(); })
+      .catch(function (x) { toast(x.message, true); }).then(function () { b.disabled = false; });
+  });
+  $("mailTest").addEventListener("click", function () {
+    var b = this, out = $("mailTestResult"); b.disabled = true; b.textContent = "Sending…"; out.textContent = "";
+    api("POST", "mail_test", { to: $("mt-to").value.trim() }).then(function (j) {
+      out.textContent = "✅ Sent to " + j.to + ". Check the inbox (and spam folder).";
+    }).catch(function (x) { out.textContent = "❌ " + x.message; })
+      .then(function () { b.disabled = false; b.textContent = "Send test email"; });
   });
 
   /* ---------- start ---------- */

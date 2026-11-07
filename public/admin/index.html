@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/style.css?v=13">
+  <link rel="stylesheet" href="../assets/style.css?v=14">
 </head>
 <body class="page-admin">
   <header class="topbar">
@@ -53,6 +53,7 @@
         <button type="button" role="tab" data-tab="posts" aria-selected="true">📋 Posts</button>
         <button type="button" role="tab" data-tab="numbers" aria-selected="false">📞 Numbers</button>
         <button type="button" role="tab" data-tab="admins" aria-selected="false">👤 Admins</button>
+        <button type="button" role="tab" data-tab="settings" aria-selected="false">⚙️ Email settings</button>
       </nav>
 
       <section data-panel="posts">
@@ -105,10 +106,74 @@
           </form>
         </div>
       </section>
+      <section data-panel="settings" hidden>
+        <div class="admin-grid admin-grid--2">
+          <form class="formcard" id="mailForm" novalidate autocomplete="off">
+            <h2>Email settings</h2>
+            <p class="muted">Members get their 6-digit edit codes from this address.</p>
+            <div class="fgroup">
+              <label class="flabel" for="mf-from">Send emails from</label>
+              <input class="finput" id="mf-from" name="mail_from" type="email" placeholder="info@taxilive.site" required>
+            </div>
+            <div class="fgroup">
+              <span class="flabel">How to send</span>
+              <div class="pills">
+                <label><input type="radio" name="mode" value="smtp"><span>📮 My email account (SMTP) – recommended</span></label>
+                <label><input type="radio" name="mode" value="server"><span>🖥️ Server's built-in mail</span></label>
+              </div>
+            </div>
+            <div id="smtpFields">
+              <div class="frow">
+                <div class="fgroup">
+                  <label class="flabel" for="mf-host">Outgoing mail server</label>
+                  <input class="finput" id="mf-host" name="host" placeholder="mail.taxilive.site">
+                </div>
+                <div class="fgroup">
+                  <label class="flabel" for="mf-secure">Security / port</label>
+                  <select class="finput" id="mf-secure" name="secure">
+                    <option value="ssl">SSL – port 465 (cPanel default)</option>
+                    <option value="tls">STARTTLS – port 587</option>
+                    <option value="none">None – port 25 / 587</option>
+                  </select>
+                </div>
+              </div>
+              <div class="frow">
+                <div class="fgroup">
+                  <label class="flabel" for="mf-user">Username</label>
+                  <input class="finput" id="mf-user" name="user" placeholder="info@taxilive.site" autocomplete="off">
+                </div>
+                <div class="fgroup">
+                  <label class="flabel" for="mf-port">Port</label>
+                  <input class="finput" id="mf-port" name="port" type="number" value="465">
+                </div>
+              </div>
+              <div class="fgroup">
+                <label class="flabel" for="mf-pass">Password</label>
+                <input class="finput" id="mf-pass" name="pass" type="password" autocomplete="new-password" placeholder="">
+                <p class="fhint" id="passHint">The password of the info@ mailbox (set in cPanel → Email Accounts).</p>
+              </div>
+            </div>
+            <button class="btn btn--primary btn--block" type="submit">Save email settings</button>
+          </form>
+          <div class="formcard">
+            <h2>Send a test email</h2>
+            <p class="muted">Save first, then send yourself a test to make sure codes arrive (check spam too).</p>
+            <div class="fgroup">
+              <label class="flabel" for="mt-to">Send test to</label>
+              <input class="finput" id="mt-to" type="email">
+            </div>
+            <button class="btn btn--dark btn--block" type="button" id="mailTest">Send test email</button>
+            <p class="fhint" id="mailTestResult"></p>
+            <div class="fsection">Where to find these in cPanel</div>
+            <p class="muted small-note" style="text-align:left">cPanel → <b>Email Accounts</b> → next to info@taxilive.site click <b>Connect Devices</b>. Use the
+              <b>“Secure SSL/TLS Settings”</b>: Outgoing Server (e.g. <i>mail.taxilive.site</i>) and SMTP Port <b>465</b>. Username is the full email address.</p>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="../assets/admin.js?v=13"></script>
+  <script src="../assets/admin.js?v=14"></script>
 </body>
 </html>
