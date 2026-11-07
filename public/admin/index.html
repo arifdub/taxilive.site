@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Taxi Live Admin</title>
+  <link rel="icon" href="../assets/favicon.svg?v=13" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css?v=13">
+</head>
+<body class="page-admin">
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="../" class="brand" aria-label="Taxi Live home">
+        <img src="../assets/logo.svg?v=13" alt="" class="brand__logo" width="40" height="40">
+        <span class="brand__name">Taxi<span>Live</span> <small class="brand__tag">Admin</small></span>
+      </a>
+      <div class="admin-user" id="adminUser" hidden>
+        <span id="adminName"></span>
+        <button type="button" class="btn btn--sm btn--ghost" id="logoutBtn">Log out</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap admin">
+    <!-- Login -->
+    <form class="formcard admin-login" id="loginForm" hidden novalidate>
+      <h1>Admin login</h1>
+      <div class="fgroup">
+        <label class="flabel" for="l-user">Username or email</label>
+        <input class="finput" id="l-user" name="username" autocomplete="username" required>
+      </div>
+      <div class="fgroup">
+        <label class="flabel" for="l-pass">Password</label>
+        <input class="finput" id="l-pass" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <p class="form-error" id="loginErr" hidden></p>
+      <button class="btn btn--primary btn--block btn--lg" type="submit">Log in</button>
+    </form>
+
+    <div class="admin-msg" id="setupMsg" hidden>
+      <h1>Not set up yet</h1>
+      <p class="muted">Run the setup first to connect the database and create your admin login.</p>
+      <a class="btn btn--primary" href="../setup/">Open setup</a>
+    </div>
+
+    <!-- App -->
+    <div id="app" hidden>
+      <nav class="admin-tabs" role="tablist">
+        <button type="button" role="tab" data-tab="posts" aria-selected="true">📋 Posts</button>
+        <button type="button" role="tab" data-tab="numbers" aria-selected="false">📞 Numbers</button>
+        <button type="button" role="tab" data-tab="admins" aria-selected="false">👤 Admins</button>
+      </nav>
+
+      <section data-panel="posts">
+        <div class="admin-toolbar">
+          <div class="chips" id="statusChips">
+            <button type="button" class="chip" data-status="all" aria-selected="true">All</button>
+            <button type="button" class="chip" data-status="active" aria-selected="false">Live</button>
+            <button type="button" class="chip" data-status="reported" aria-selected="false">⚑ Reported</button>
+            <button type="button" class="chip" data-status="hidden" aria-selected="false">Hidden</button>
+            <button type="button" class="chip" data-status="pinned" aria-selected="false">📌 Pinned</button>
+            <button type="button" class="chip" data-status="expired" aria-selected="false">Expired</button>
+          </div>
+          <div class="admin-toolbar__row">
+            <input class="finput" id="postSearch" type="search" placeholder="Search title, name, email, phone…">
+            <select class="finput" id="postType"><option value="">All types</option><option value="advert">Adverts</option><option value="notice">Notices</option></select>
+            <button type="button" class="btn btn--primary" id="newPost">＋ New post</button>
+          </div>
+        </div>
+        <div id="postEditor"></div>
+        <p class="muted" id="postCount"></p>
+        <div id="postList"></div>
+      </section>
+
+      <section data-panel="numbers" hidden>
+        <div class="admin-toolbar__row">
+          <p class="muted" style="margin:0;flex:1">Changes show on the Important Numbers pages straight away. Lower “order” numbers show first.</p>
+          <button type="button" class="btn btn--primary" id="newCat">＋ New category</button>
+        </div>
+        <div id="numList"></div>
+      </section>
+
+      <section data-panel="admins" hidden>
+        <div class="admin-grid">
+          <div class="formcard">
+            <h2>Admins</h2>
+            <div id="adminList"></div>
+          </div>
+          <form class="formcard" id="addAdmin" novalidate>
+            <h2>Add an admin</h2>
+            <div class="fgroup"><label class="flabel">Username</label><input class="finput" name="username" autocomplete="off" required></div>
+            <div class="fgroup"><label class="flabel">Email</label><input class="finput" name="email" type="email" required></div>
+            <div class="fgroup"><label class="flabel">Password <span class="opt">10+ characters</span></label><input class="finput" name="password" type="password" autocomplete="new-password" required></div>
+            <button class="btn btn--dark btn--block" type="submit">Add admin</button>
+          </form>
+          <form class="formcard" id="pwForm" novalidate>
+            <h2>Change my password</h2>
+            <div class="fgroup"><label class="flabel">Current password</label><input class="finput" name="current" type="password" autocomplete="current-password" required></div>
+            <div class="fgroup"><label class="flabel">New password <span class="opt">10+ characters</span></label><input class="finput" name="new" type="password" autocomplete="new-password" required></div>
+            <button class="btn btn--dark btn--block" type="submit">Change password</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="../assets/admin.js?v=13"></script>
+</body>
+</html>

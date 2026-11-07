@@ -87,6 +87,7 @@
     if (el.title.value.trim().length < 3) return fail("Please add a title.", el.title);
     if (el.body.value.trim().length < 5) return fail("Please add some details.", el.body);
     if (!el.name.value.trim()) return fail("Please add your name.", el.name);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.email.value.trim())) return fail("Please add your email – you need it to edit or remove your post later.", el.email);
 
     var fd = new FormData(form);
     if (type !== "advert") { fd.delete("category"); fd.delete("price"); }

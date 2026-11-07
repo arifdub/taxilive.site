@@ -6,17 +6,17 @@
   <title>Post to Taxi Live</title>
   <meta name="description" content="Post an advert or a notice to the Taxi Live noticeboard for Irish taxi drivers.">
   <meta name="theme-color" content="#0b1530">
-  <link rel="icon" href="assets/favicon.svg?v=7" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.svg?v=13" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=7">
+  <link rel="stylesheet" href="assets/style.css?v=13">
 </head>
 <body class="page-post">
   <header class="topbar">
     <div class="wrap topbar__inner">
       <a href="./" class="brand" aria-label="Taxi Live home">
-        <img src="assets/logo.svg?v=7" alt="" class="brand__logo" width="40" height="40">
+        <img src="assets/logo.svg?v=13" alt="" class="brand__logo" width="40" height="40">
         <span class="brand__name">Taxi<span>Live</span></span>
       </a>
       <a href="./#board" class="backlink">← Noticeboard</a>
@@ -102,6 +102,12 @@
         <p class="fhint">Shown on your post so drivers can call or WhatsApp you.</p>
       </div>
 
+      <div class="fgroup">
+        <label class="flabel" for="f-email">Email <span class="opt">private – never shown</span></label>
+        <input class="finput" id="f-email" name="email" type="email" inputmode="email" maxlength="190" autocomplete="email" required placeholder="you@example.com">
+        <p class="fhint">You'll use this email to edit or remove your post later. We send you a code – no password needed.</p>
+      </div>
+
       <div class="hp" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
         <label>Leave empty<input name="website" tabindex="-1" autocomplete="off"></label>
       </div>
@@ -115,6 +121,7 @@
       <div class="success__icon">✅</div>
       <h2>Your post is live!</h2>
       <p class="muted">Share it in the WhatsApp group so more drivers see it.</p>
+      <p class="muted small-note">To edit or remove it later, go to <a href="manage.html">Edit or remove my posts</a> and use the same email.</p>
       <div class="success__actions">
         <a class="btn btn--wa btn--block" id="shareWa" target="_blank" rel="noopener">Share on WhatsApp</a>
         <a class="btn btn--dark btn--block" href="./#board">View noticeboard</a>
@@ -124,6 +131,6 @@
   </main>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="assets/post.js?v=7"></script>
+  <script src="assets/post.js?v=13"></script>
 </body>
 </html>

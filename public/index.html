@@ -4,29 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Taxi Live – Ireland's Taxi Driver Hub</title>
-  <meta name="description" content="Taxi Live: important numbers, live road updates, news and adverts for taxi drivers in Ireland. NCTS, NTA, Carriage Office, insurance, rentals, mechanics and meter installers – tap to call.">
+  <meta name="description" content="Taxi Live: live road updates, noticeboard and important numbers, news and adverts for taxi drivers in Ireland. NCTS, NTA, Carriage Office, insurance, rentals, mechanics and meter installers – tap to call.">
   <meta name="theme-color" content="#0b1530">
   <meta property="og:title" content="Taxi Live – Ireland's Taxi Driver Hub">
   <meta property="og:description" content="Important numbers, live updates, news and adverts for Irish taxi drivers.">
   <meta property="og:type" content="website">
-  <link rel="icon" href="assets/favicon.svg?v=7" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.svg?v=13" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=12">
+  <link rel="stylesheet" href="assets/style.css?v=13">
 </head>
 <body>
   <header class="topbar">
     <div class="wrap topbar__inner">
       <a href="#top" class="brand" aria-label="Taxi Live home">
-        <img src="assets/logo.svg?v=7" alt="" class="brand__logo" width="40" height="40">
+        <img src="assets/logo.svg?v=13" alt="" class="brand__logo" width="40" height="40">
         <span class="brand__name">Taxi<span>Live</span></span>
       </a>
       <button type="button" class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
         <span></span><span></span><span></span>
       </button>
       <nav class="nav" id="mainNav" aria-label="Main">
-        <a href="#numbers">Numbers</a>
+        <a href="numbers/">Numbers</a>
         <a href="cameras/">Cameras</a>
         <a href="#live">Live</a>
         <a href="#board">Noticeboard</a>
@@ -44,39 +44,11 @@
         <h1>Everything a taxi driver needs, <em>one tap away.</em></h1>
         <p class="lead">Important numbers, live road updates, news and adverts from drivers, for drivers – built for your phone, on the rank or between fares.</p>
         <div class="hero__actions">
-          <a href="#numbers" class="btn btn--primary">📞 Important numbers</a>
+          <a href="numbers/" class="btn btn--primary">📞 Important numbers</a>
           <a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" class="btn btn--wa" target="_blank" rel="noopener">💬 Join WhatsApp group</a>
           <a href="cameras/" class="btn btn--ghost">📷 Live cameras</a>
           <a href="post.html?type=advert" class="btn btn--ghost">📣 Post an ad</a>
         </div>
-        <div class="quick" aria-label="Quick dial">
-          <a class="quick__item" href="tel:+35314135960"><b>NCTS</b><span>01 413 5960</span></a>
-          <a class="quick__item" href="tel:+353818064000"><b>NTA</b><span>0818 064 000</span></a>
-          <a class="quick__item" href="tel:+35314135951"><b>Meter Sealing</b><span>01 413 5951</span></a>
-          <a class="quick__item" href="tel:+35318081443"><b>Mechanic 24/7</b><span>01 808 1443</span></a>
-        </div>
-      </div>
-    </section>
-
-    <section id="numbers" class="section">
-      <div class="wrap">
-        <div class="section__head">
-          <div>
-            <p class="eyebrow">Important information</p>
-            <h2>Important numbers</h2>
-            <p class="muted">Tap any number to call. Tap ⧉ to copy it.</p>
-          </div>
-          <label class="search">
-            <span class="sr-only">Search contacts</span>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.96 12.06l4.24 4.24-1.4 1.4-4.24-4.24A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/></svg>
-            <input id="q" type="search" placeholder="Search e.g. insurance, Finglas, meter…" autocomplete="off">
-          </label>
-        </div>
-        <div class="chips" id="chips" role="tablist" aria-label="Filter by category"></div>
-        <div class="grid" id="contacts">
-          <noscript><p>Please enable JavaScript to view the contact list.</p></noscript>
-        </div>
-        <p class="empty" id="empty" hidden>No contacts match your search.</p>
       </div>
     </section>
 
@@ -126,6 +98,7 @@
           <div class="board-actions">
             <a href="post.html?type=advert" class="btn btn--primary">📣 Post an advert</a>
             <a href="post.html?type=notice" class="btn btn--dark-outline">📰 Post a notice</a>
+            <a href="manage.html" class="board-manage">✏️ Edit or remove my posts</a>
           </div>
         </div>
         <div class="chips" id="boardChips" role="tablist" aria-label="Filter posts">
@@ -159,6 +132,7 @@
           <a href="https://www.ncts.ie" target="_blank" rel="noopener"><b>NCTS</b><span>Book your NCT online</span></a>
           <a href="https://www.garda.ie" target="_blank" rel="noopener"><b>An Garda Síochána</b><span>Garda stations & services</span></a>
           <a href="cameras/"><b>Live traffic cameras</b><span>TII cameras by road</span></a>
+          <a href="numbers/"><b>Important numbers</b><span>NCTS, Carriage Office, insurance…</span></a>
         </div>
       </div>
     </section>
@@ -167,7 +141,7 @@
   <footer class="footer" id="contact">
     <div class="wrap footer__inner">
       <div class="brand">
-        <img src="assets/logo.svg?v=7" alt="" class="brand__logo" width="36" height="36">
+        <img src="assets/logo.svg?v=13" alt="" class="brand__logo" width="36" height="36">
         <span class="brand__name">Taxi<span>Live</span></span>
       </div>
       <p>Ireland's taxi driver community – live updates, news and adverts.</p>
@@ -186,9 +160,8 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="assets/contacts.js?v=7"></script>
-  <script src="assets/app.js?v=7"></script>
-  <script src="assets/pinned.js?v=8"></script>
-  <script src="assets/board.js?v=8"></script>
+  <script src="assets/nav.js?v=13"></script>
+  <script src="assets/pinned.js?v=13"></script>
+  <script src="assets/board.js?v=13"></script>
 </body>
 </html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Important Numbers – Taxi Live</title>
+  <meta name="description" content="Important numbers for Irish taxi drivers: NCTS, NTA, Carriage Office, taxi apps, insurance, rentals, mechanics and meter installers – tap to call.">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="../assets/favicon.svg?v=13" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css?v=13">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="../" class="brand" aria-label="Taxi Live home">
+        <img src="../assets/logo.svg?v=13" alt="" class="brand__logo" width="40" height="40">
+        <span class="brand__name">Taxi<span>Live</span></span>
+      </a>
+      <button type="button" class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav" id="mainNav" aria-label="Main">
+        <a href="../">Home</a>
+        <a href="./" aria-current="page">Numbers</a>
+        <a href="../cameras/">Cameras</a>
+        <a href="../#board">Noticeboard</a>
+        <a href="../post.html?type=advert" class="nav__cta">＋ Post</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="numpage">
+    <div class="wrap">
+      <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+      <div class="numpage__head">
+        <div>
+          <h1 id="pageTitle">Important numbers</h1>
+          <p class="muted" id="pageLead">Tap a category, or search every number below.</p>
+        </div>
+        <label class="search">
+          <span class="sr-only">Search numbers</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 0 1 5.96 12.06l4.24 4.24-1.4 1.4-4.24-4.24A7.5 7.5 0 1 1 10.5 3Zm0 2a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11Z"/></svg>
+          <input id="q" type="search" placeholder="Search e.g. insurance, Finglas, meter…" autocomplete="off">
+        </label>
+      </div>
+
+      <div id="view" aria-live="polite"><p class="muted">Loading…</p></div>
+
+      <p class="numpage__note">Numbers are shared by the community for convenience. Please confirm details directly with each provider.
+        Spotted a wrong number? Let us know in the <a href="https://chat.whatsapp.com/C8iqKBi8XHH6m4QyVOomjI" target="_blank" rel="noopener">WhatsApp group</a>.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <div class="brand">
+        <img src="../assets/logo.svg?v=13" alt="" class="brand__logo" width="36" height="36">
+        <span class="brand__name">Taxi<span>Live</span></span>
+      </div>
+      <p>Ireland's taxi driver community – live updates, news and adverts.</p>
+      <p class="small">© <span id="year"></span> taxilive.site</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="../assets/contacts.js?v=13"></script>
+  <script src="../assets/nav.js?v=13"></script>
+  <script src="../assets/numbers.js?v=13"></script>
+</body>
+</html>

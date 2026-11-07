@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Posts – Taxi Live</title>
+  <meta name="description" content="Edit or remove your Taxi Live noticeboard posts using your email.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0b1530">
+  <link rel="icon" href="assets/favicon.svg?v=13" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css?v=13">
+</head>
+<body class="page-post">
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="./" class="brand" aria-label="Taxi Live home">
+        <img src="assets/logo.svg?v=13" alt="" class="brand__logo" width="40" height="40">
+        <span class="brand__name">Taxi<span>Live</span></span>
+      </a>
+      <a href="./#board" class="backlink">← Noticeboard</a>
+    </div>
+  </header>
+
+  <main class="postpage">
+    <div class="postpage__head">
+      <h1>Edit or remove my posts</h1>
+      <p class="muted" id="lead">Enter the email you used when posting. We'll email you a 6-digit code.</p>
+    </div>
+
+    <p class="form-error" id="err" role="alert" hidden></p>
+
+    <!-- Step 1: email -->
+    <form class="formcard" id="stepEmail" novalidate>
+      <div class="fgroup">
+        <label class="flabel" for="m-email">Your email</label>
+        <input class="finput" id="m-email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="you@example.com">
+      </div>
+      <button class="btn btn--primary btn--block btn--lg" type="submit">Email me a code</button>
+    </form>
+
+    <!-- Step 2: code -->
+    <form class="formcard" id="stepCode" novalidate hidden>
+      <p class="muted" id="sentTo"></p>
+      <div class="fgroup">
+        <label class="flabel" for="m-code">6-digit code</label>
+        <input class="finput finput--code" id="m-code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required placeholder="••••••">
+        <p class="fhint">Check your spam folder if it hasn't arrived in a minute. The code works for 15 minutes.</p>
+      </div>
+      <button class="btn btn--primary btn--block btn--lg" type="submit">Show my posts</button>
+      <div class="manage-links">
+        <button type="button" class="linkbtn" id="resend">Send a new code</button>
+        <button type="button" class="linkbtn" id="changeEmail">Use a different email</button>
+      </div>
+    </form>
+
+    <!-- Step 3: posts -->
+    <section id="stepPosts" hidden>
+      <div class="signedin">
+        <span>Signed in as <b id="who"></b></span>
+        <button type="button" class="linkbtn" id="logout">Sign out</button>
+      </div>
+      <div id="myPosts"></div>
+      <a class="btn btn--dark btn--block" href="post.html?type=advert">＋ Post something new</a>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets/manage.js?v=13"></script>
+</body>
+</html>

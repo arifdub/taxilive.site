@@ -12,17 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Write admin config
-        env:
-          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-        run: |
-          if [ -n "$ADMIN_PASSWORD" ]; then
-            php -r '$h = password_hash(getenv("ADMIN_PASSWORD"), PASSWORD_DEFAULT); file_put_contents("public/api/config.php", "<?php\nreturn [\"admin_hash\" => " . var_export($h, true) . "];\n");'
-            echo "Admin password configured."
-          else
-            echo "::warning::ADMIN_PASSWORD secret not set - admin page is disabled."
-          fi
-
       - name: Upload via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:

@@ -8,6 +8,7 @@
   var errBox = document.getElementById("boardError");
   var chips = document.getElementById("boardChips");
   var posts = [];
+  var fromDb = false;
   var filter = "all";
 
   function mine() {
@@ -54,7 +55,7 @@
   function load() {
     fetch(API + "?action=list", { cache: "no-store" })
       .then(function (r) { if (!r.ok) throw 0; return r.json(); })
-      .then(function (j) { posts = j.posts || []; errBox.hidden = true; render(); })
+      .then(function (j) { posts = j.posts || []; fromDb = !!j.db; errBox.hidden = true; render(); })
       .catch(function () { posts = []; render(); errBox.hidden = false; });
   }
 
@@ -101,11 +102,14 @@
     var my = mine();
     list.innerHTML = "";
     var now = Date.now();
-    var pinned = (window.TAXI_PINNED || []).filter(function (p) {
+    var pinned = (fromDb ? posts.filter(function (p) { return p.pinned; }).map(function (p) {
+      return { title: p.title, body: p.body, name: p.name, phone: p.phone, deadline: p.deadline,
+               link: p.link_url ? { url: p.link_url, label: p.link_label || "Open link" } : null };
+    }) : (window.TAXI_PINNED || [])).filter(function (p) {
       return (!p.expires || Date.parse(p.expires) > now) && (filter === "all" || filter === "notice");
     });
     pinned.forEach(function (p) { list.appendChild(renderPinned(p)); });
-    var shown = posts.filter(function (p) { var t = p.type === "wanted" ? "advert" : p.type; return filter === "all" || t === filter; });
+    var shown = posts.filter(function (p) { return !p.pinned; }).filter(function (p) { var t = p.type === "wanted" ? "advert" : p.type; return filter === "all" || t === filter; });
     shown.forEach(function (p) {
       var isAd = p.type !== "notice";
       var card = el("article", "post post--" + (isAd ? "advert" : "notice"));
@@ -145,7 +149,7 @@
       share.target = "_blank"; share.rel = "noopener";
       act.appendChild(share);
 
-      if (my[p.id]) {
+      if (my[p.id] && !fromDb) {
         var del = el("button", "linkbtn linkbtn--danger", "Delete my post");
         del.type = "button";
         del.addEventListener("click", function () {
